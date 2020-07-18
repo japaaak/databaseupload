@@ -4502,6 +4502,10 @@ run-async@^2.4.0:
   dependencies:
     is-promise "^2.1.0"
 
+"rx@github:Reactive-Extensions/RxJS":
+  version "4.1.0"
+  resolved "https://codeload.github.com/Reactive-Extensions/RxJS/tar.gz/6770d24307ed4baaecdbb21cfc178c13e459f42f"
+
 rxjs@^6.5.3:
   version "6.5.5"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
