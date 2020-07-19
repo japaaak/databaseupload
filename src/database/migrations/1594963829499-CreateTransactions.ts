@@ -43,22 +43,9 @@ export default class CreateTransactions1594963829499
         ],
       }),
     );
-
-    // await queryRunner.createForeignKey(
-    //   'transactions',
-    //   new TableForeignKey({
-    //     name: 'TransactionCategory',
-    //     columnNames: ['categirt_id'],
-    //     referencedColumnNames: ['id'],
-    //     referencedTableName: 'category',
-    //     onDelete: 'SET NULL',
-    //     onUpdate: 'CASCADE',
-    //   }),
-    // );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    // await queryRunner.dropForeignKey('transactions', 'TransactionCategory');
     await queryRunner.dropTable('transactions');
   }
 }

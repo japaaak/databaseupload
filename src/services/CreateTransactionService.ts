@@ -1,5 +1,6 @@
 import { getRepository, getCustomRepository } from 'typeorm';
-// import AppError from '../errors/AppError';
+
+import AppError from '../errors/AppError';
 import Transaction from '../models/Transaction';
 import Category from '../models/Category';
 import TransactionRepository from '../repositories/TransactionsRepository';
@@ -21,6 +22,14 @@ class CreateTransactionService {
     const transactionRepository = getCustomRepository(TransactionRepository);
     const categoryRepository = getRepository(Category);
 
+    const { total } = await transactionRepository.getBalance();
+
+    if (type === 'outcome' && total < value) {
+      throw new AppError('This transaction is invalid');
+    }
+
+    let newCategoryID;
+
     const checkCategoryExists = await categoryRepository.findOne({
       where: { title: category },
     });
@@ -29,19 +38,15 @@ class CreateTransactionService {
       const newCategory = categoryRepository.create({
         title: category,
       });
-
-      await categoryRepository.save(newCategory);
+      const { id } = await categoryRepository.save(newCategory);
+      newCategoryID = id;
     }
-
-    const findCategory = await categoryRepository.findOne({
-      where: { title: category },
-    });
 
     const transaction = transactionRepository.create({
       title,
       value,
       type,
-      category: findCategory,
+      category_id: checkCategoryExists?.id || newCategoryID,
     });
 
     await transactionRepository.save(transaction);
